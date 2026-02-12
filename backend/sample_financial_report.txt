@@ -1,0 +1,37 @@
+ACME CORPORATION
+ANNUAL FINANCIAL REPORT 2023
+
+INCOME STATEMENT
+For the year ended December 31, 2023
+(All amounts in USD millions)
+
+Revenue                                    1,245.5
+Cost of Goods Sold                          (678.2)
+Gross Profit                                 567.3
+
+Operating Expenses:
+  Selling & Marketing                       (145.3)
+  General & Administrative                   (98.7)
+  Research & Development                     (67.2)
+Total Operating Expenses                    (311.2)
+
+Operating Profit (EBIT)                      256.1
+
+Interest Expense                             (23.4)
+Other Income                                   5.2
+
+Profit Before Tax                            237.9
+Income Tax Expense                           (59.5)
+
+Net Profit                                   178.4
+
+
+COMPARATIVE FIGURES 2022
+
+Revenue                                    1,123.8
+Operating Expenses                          (289.5)
+Operating Profit (EBIT)                      234.6
+Net Profit                                   156.2
+
+Currency: USD
+All figures in millions unless otherwise stated

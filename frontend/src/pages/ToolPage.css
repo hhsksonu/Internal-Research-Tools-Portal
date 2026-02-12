@@ -1,0 +1,289 @@
+/* src/pages/ToolPage.css — shared styles for tool pages */
+
+.tool-page {
+  padding: 60px 0 80px;
+  animation: fadeUp 0.5s ease both;
+}
+
+/* Header */
+.tool-page__header {
+  margin-bottom: 40px;
+}
+
+.tool-page__breadcrumb {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.tool-page__breadcrumb a {
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+
+.tool-page__breadcrumb a:hover {
+  color: var(--accent-blue);
+}
+
+.tool-page__breadcrumb span {
+  color: var(--text-secondary);
+}
+
+.tool-page__title {
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.tool-page__subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 620px;
+  line-height: 1.65;
+}
+
+/* Info grid */
+.tool-page__info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.tool-page__info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color var(--transition);
+}
+
+.tool-page__info-card:hover {
+  border-color: var(--border-accent);
+}
+
+.tool-page__info-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.tool-page__info-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-family: var(--font-mono);
+}
+
+.tool-page__info-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Section */
+.tool-page__section {
+  margin-bottom: 32px;
+}
+
+.tool-page__section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+}
+
+.tool-page__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tool-page__tag {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.tool-page__tag:hover {
+  border-color: var(--border-accent);
+  color: var(--accent-blue);
+}
+
+/* Run panel */
+.tool-page__run-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.tool-page__no-files {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.tool-page__no-files-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.tool-page__no-files strong {
+  display: block;
+  font-size: 16px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.tool-page__no-files p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Active files */
+.tool-page__active-files {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.tool-page__active-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.tool-page__file-chip {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Progress bar */
+.tool-page__progress {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tool-page__progress span {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.tool-page__progress-bar {
+  height: 4px;
+  background: var(--bg-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.tool-page__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+  border-radius: 2px;
+  animation: progress-indeterminate 1.5s infinite ease-in-out;
+  width: 40%;
+}
+
+@keyframes progress-indeterminate {
+  0%   { transform: translateX(-150%); width: 40%; }
+  60%  { width: 50%; }
+  100% { transform: translateX(350%); width: 40%; }
+}
+
+/* Result panels */
+.tool-page__result {
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  animation: fadeUp 0.3s ease both;
+}
+
+.tool-page__result--success {
+  background: rgba(16, 185, 129, 0.06);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.tool-page__result--error {
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.tool-page__result-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.tool-page__result-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.tool-page__result-header strong {
+  display: block;
+  font-size: 15px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.tool-page__result-header p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.tool-page__result-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .tool-page__info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .tool-page__run-panel {
+    padding: 24px 20px;
+  }
+
+  .tool-page__info-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 440px) {
+  .tool-page__info-grid {
+    grid-template-columns: 1fr;
+  }
+}
