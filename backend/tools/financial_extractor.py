@@ -35,10 +35,12 @@ def extract_text_from_pdf(file_path: str) -> str:
         reader = PdfReader(file_path)
         text = ""
         for page in reader.pages:
-            text += page.extract_text() + "\n"
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text + "\n"
         return text
     except Exception as e:
-        raise Exception(f"Could not reliably extract text from PDF: {str(e)}")
+        raise Exception(f"Could not extract text from PDF: {str(e)}")
 
 
 def extract_text_from_file(file_path: str) -> str:
@@ -59,8 +61,6 @@ def find_numbers_in_text(text: str, keyword: str) -> List[str]:
     Simple pattern matching to find numbers near keywords
     Returns list of potential numbers
     """
-    # Look for keyword and numbers nearby
-    # This is basic - looks for numbers within 200 chars of keyword
     keyword_lower = keyword.lower()
     text_lower = text.lower()
     
@@ -152,7 +152,39 @@ def extract_financial_data_from_text(text: str) -> Dict[str, Any]:
     """
     Main extraction logic - extracts 10-15 core income statement items
     Returns data structure with years as columns
+    
+    HANDLES IMAGE-BASED PDFs RESPONSIBLY
     """
+    
+    # CRITICAL: Detect image-based / scanned PDFs
+    text_clean = text.strip()
+    if len(text_clean) < 200:
+        # Very little text extracted = likely scanned/image-based PDF
+        print("⚠️ WARNING: Image-based PDF detected (minimal text extracted)")
+        print("   Returning structured output with 'Not Found' values")
+        print("   For scanned PDFs, consider using OCR preprocessing")
+        
+        return {
+            "Currency": "Unknown",
+            "Years": ["Unknown"],
+            "Line Items": {
+                "Total Revenue": {"Unknown": "Not Found"},
+                "Other Income": {"Unknown": "Not Found"},
+                "Total Income": {"Unknown": "Not Found"},
+                "Operating Expenses": {"Unknown": "Not Found"},
+                "Cost of Materials": {"Unknown": "Not Found"},
+                "Employee Expenses": {"Unknown": "Not Found"},
+                "Other Expenses": {"Unknown": "Not Found"},
+                "EBITDA": {"Unknown": "Not Found"},
+                "Depreciation": {"Unknown": "Not Found"},
+                "EBIT": {"Unknown": "Not Found"},
+                "Finance Costs": {"Unknown": "Not Found"},
+                "PBT": {"Unknown": "Not Found"},
+                "Tax Expense": {"Unknown": "Not Found"},
+                "PAT": {"Unknown": "Not Found"},
+            },
+            "Warning": "Image-based PDF detected - OCR not enabled. Text extraction limited."
+        }
     
     # Define 10-15 core line items to extract
     line_items = {
@@ -203,8 +235,6 @@ def extract_financial_data_from_text(text: str) -> Dict[str, Any]:
         for match in matches:
             if len(match) == 2:  # FY format
                 year_num = int(match)
-                # Convert to full year (assume 2000s)
-                full_year = 2000 + year_num if year_num < 50 else 1900 + year_num
                 years_found.append(f"FY {match}")
             else:
                 years_found.append(match)
@@ -269,8 +299,6 @@ def find_value_for_item_and_year(text: str, keywords: List[str], year: str) -> s
     """
     # Search for keyword followed by numbers
     for keyword in keywords:
-        # Create pattern that looks for keyword and year in proximity
-        # Then finds numbers nearby
         keyword_lower = keyword.lower()
         
         # Find all occurrences of keyword
@@ -288,7 +316,6 @@ def find_value_for_item_and_year(text: str, keywords: List[str], year: str) -> s
             # Check if year is mentioned in context
             if year.replace('FY ', '') in context or year in context:
                 # Find numbers in this context
-                # Look for common number formats: 1,234.56 or 1234.56 or 1,234
                 numbers = re.findall(r'\d[\d,]*\.?\d*', context)
                 if numbers:
                     # Return first substantial number (not single digits)
@@ -311,47 +338,59 @@ def extract_financial_data(file_paths: List[str]) -> str:
     
     for file_path in file_paths:
         try:
+            print(f"\nProcessing: {os.path.basename(file_path)}")
+            
             # Extract text
             text = extract_text_from_file(file_path)
             
+            print(f"  Extracted {len(text)} characters of text")
+            
             if not text.strip():
-                # Empty file - add error entry
+                print("  ⚠️ No text extracted - empty file")
                 continue
             
             # Extract financial data
             data = extract_financial_data_from_text(text)
             data["Source File"] = os.path.basename(file_path)
             all_data.append(data)
+            
+            print(f"  ✅ Processing complete")
         
         except Exception as e:
             # Error handling - add error entry
-            print(f"Error processing {file_path}: {e}")
+            print(f"  ❌ Error processing {file_path}: {e}")
             continue
     
     if not all_data:
         # No data extracted - create error Excel
+        print("\n❌ No data extracted from any files")
         df = pd.DataFrame([{
-            "Error": "Could not extract financial data from any uploaded files"
+            "Error": "Could not extract financial data from any uploaded files",
+            "Possible Reasons": "1) Image-based PDFs (OCR not enabled), 2) Unsupported format, 3) Corrupted files",
+            "Solution": "Use text-based PDFs or enable OCR preprocessing"
         }])
         output_file = "financial_extraction.xlsx"
         df.to_excel(output_file, index=False, engine='openpyxl')
         return output_file
     
     # Convert to DataFrame with years as columns
-    # Structure: Line Item | FY 25 | FY 24 | FY 23 | ... | Currency | Source File | Notes
-    
     rows = []
     for file_data in all_data:
         source_file = file_data["Source File"]
         currency = file_data["Currency"]
         years = file_data["Years"]
+        warning = file_data.get("Warning", "")
         
         # Add header row for this file
+        header_text = f"=== {source_file} ==="
+        if warning:
+            header_text += f" ⚠️ {warning}"
+        
         rows.append({
-            "Line Item": f"=== {source_file} ===",
+            "Line Item": header_text,
             **{year: "" for year in years},
             "Currency": currency,
-            "Notes": ""
+            "Notes": warning
         })
         
         # Add each line item as a row
@@ -400,5 +439,7 @@ def extract_financial_data(file_paths: List[str]) -> str:
     # Save to Excel
     output_file = "financial_extraction.xlsx"
     df.to_excel(output_file, index=False, engine='openpyxl')
+    
+    print(f"\n✅ Excel file generated: {output_file}")
     
     return output_file

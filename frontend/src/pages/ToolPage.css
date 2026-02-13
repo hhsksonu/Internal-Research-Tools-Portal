@@ -1,5 +1,6 @@
-/* src/pages/ToolPage.css — shared styles for tool pages */
+/* src/pages/ToolPage.css — unified styles */
 
+/* Page */
 .tool-page {
   padding: 60px 0 80px;
   animation: fadeUp 0.5s ease both;
@@ -69,7 +70,6 @@
 
 .tool-page__info-icon {
   font-size: 20px;
-  line-height: 1;
 }
 
 .tool-page__info-label {
@@ -86,7 +86,7 @@
   color: var(--text-primary);
 }
 
-/* Section */
+/* Sections */
 .tool-page__section {
   margin-bottom: 32px;
 }
@@ -101,28 +101,6 @@
   font-family: var(--font-mono);
 }
 
-.tool-page__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tool-page__tag {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: 99px;
-  padding: 4px 12px;
-  font-size: 12px;
-  font-family: var(--font-mono);
-  color: var(--text-secondary);
-  transition: border-color var(--transition), color var(--transition);
-}
-
-.tool-page__tag:hover {
-  border-color: var(--border-accent);
-  color: var(--accent-blue);
-}
-
 /* Run panel */
 .tool-page__run-panel {
   background: var(--bg-card);
@@ -135,93 +113,131 @@
   margin-bottom: 32px;
 }
 
-.tool-page__no-files {
+/* Preview */
+.tool-page__preview {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 16px;
+}
+
+.tool-page__preview-info {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: white;
+  border-radius: 6px;
+}
+
+.tool-page__preview-item {
   display: flex;
-  align-items: flex-start;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.tool-page__preview-item:last-child {
+  border-bottom: none;
+}
+
+.tool-page__preview-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #495057;
+}
+
+.tool-page__preview-value {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: #212529;
+}
+
+.tool-page__preview-message {
+  padding: 16px;
+  background: white;
+  border-radius: 6px;
+  border-left: 4px solid #28a745;
+}
+
+.tool-page__preview-note {
+  font-size: 13px;
+  color: #6c757d;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e9ecef;
+}
+
+/* Notes */
+.tool-page__notes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tool-page__note {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: #0A0F1ED9;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.tool-page__note-icon {
+  font-size: 20px;
+}
+
+/* Steps */
+.tool-page__steps {
+  display: grid;
   gap: 16px;
 }
 
-.tool-page__no-files-icon {
-  font-size: 28px;
-  flex-shrink: 0;
-}
-
-.tool-page__no-files strong {
-  display: block;
-  font-size: 16px;
-  color: var(--text-primary);
-  margin-bottom: 6px;
-}
-
-.tool-page__no-files p {
-  font-size: 14px;
-  color: var(--text-secondary);
-}
-
-/* Active files */
-.tool-page__active-files {
+.tool-page__step {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
+  gap: 16px;
+  padding: 16px;
+  background: #0A0F1ED9;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
 }
 
-.tool-page__active-label {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
+.tool-page__step-number {
+  width: 36px;
+  height: 36px;
+  background: var(--accent-blue);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 700;
 }
 
-.tool-page__file-chip {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 12px;
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Progress bar */
-.tool-page__progress {
+/* Limitations */
+.tool-page__limitations {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.tool-page__progress span {
-  font-size: 13px;
-  color: var(--text-muted);
+.tool-page__limitation {
+  padding: 12px 16px;
+  background: white;
+  border-left: 3px solid #ffc107;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #495057;
 }
 
-.tool-page__progress-bar {
-  height: 4px;
-  background: var(--bg-elevated);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.tool-page__progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
-  border-radius: 2px;
-  animation: progress-indeterminate 1.5s infinite ease-in-out;
-  width: 40%;
-}
-
-@keyframes progress-indeterminate {
-  0%   { transform: translateX(-150%); width: 40%; }
-  60%  { width: 50%; }
-  100% { transform: translateX(350%); width: 40%; }
-}
-
-/* Result panels */
+/* Results */
 .tool-page__result {
-  border-radius: var(--radius-lg);
+  margin-top: 24px;
   padding: 22px 24px;
+  border-radius: var(--radius-lg);
   animation: fadeUp 0.3s ease both;
 }
 
@@ -237,32 +253,12 @@
 
 .tool-page__result-header {
   display: flex;
-  align-items: flex-start;
   gap: 14px;
   margin-bottom: 16px;
 }
 
 .tool-page__result-icon {
   font-size: 22px;
-  flex-shrink: 0;
-}
-
-.tool-page__result-header strong {
-  display: block;
-  font-size: 15px;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-
-.tool-page__result-header p {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-.tool-page__result-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
 }
 
 /* Responsive */
@@ -275,10 +271,6 @@
 @media (max-width: 600px) {
   .tool-page__run-panel {
     padding: 24px 20px;
-  }
-
-  .tool-page__info-grid {
-    grid-template-columns: 1fr 1fr;
   }
 }
 
